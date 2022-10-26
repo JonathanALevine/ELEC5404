@@ -1,0 +1,111 @@
+close all;  
+clear; %intialization
+set(0,'DefaultFigureWindowStyle','docked');
+
+% Error Function and Gradient Functions
+E = @(w1,w2) w1.^2 -2*w1 + 1 + 2*(w2.^2 - 4*w2 + 4);
+Grad_E = @(w1, w2) [2*w1 - 2; 4*w2 - 8];
+
+% Initial Point
+w1_init = 0.5;
+w2_init = 1;
+
+figure(1)
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+hold on
+quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_init, w2_init,'r*')
+hold off
+axis equal
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+xlabel('w1')
+ylabel('w2')
+
+% ------------- First Epoch -----------
+% Phi Function (Function to minimize to find the step n)
+w1 = w1_init;
+w2 = w2_init;
+h = -1*Grad_E(w1, w2);
+Phi = @(n) E(w1 + n*h(1), w2 + n*h(2));
+
+% Guess at a small step and a large step
+% Looking at the Phi function for first epoch
+n1 = 0.01;
+n2 = 2;
+
+n = linspace(n1, n2);
+Phis = Phi(n);
+
+figure(2)
+plot(n, Phis)
+
+% Find the best step size (best learning rate)
+n1 = GoldenSearch(n1, n2, Phi);
+
+% update new weights
+w1_new = w1 + n1*h(1);
+w2_new = w2 + n1*h(2);
+
+figure(3)
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+hold on
+% Plot the initial point
+quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_init, w2_init,'r*')
+% Plot the next point after the first epoch
+quiver(w1_init, w2_init, w1_new - w1_init, w2_new - w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_new, w2_new,'r*')
+axis equal
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+hold off
+xlabel('w1')
+ylabel('w2')
+
+% ------------- Second Epoch -----------
+% Phi Function (Function to minimize to find the step n)
+w1 = w1_new;
+w2 = w2_new;
+h = -1*Grad_E(w1, w2);
+Phi = @(n) E(w1 + n*h(1), w2 + n*h(2));
+
+% Guess at a small step and a large step
+% Looking at the Phi function for first epoch
+n1 = 0.01;
+n2 = 2;
+
+n = linspace(n1, n2);
+Phis = Phi(n);
+
+figure(4)
+plot(n, Phis)
+
+% Find the best step size (best learning rate)
+n1 = GoldenSearch(n1, n2, Phi);
+
+% update new weights
+w1_new_new = w1 + n1*h(1);
+w2_new_new = w2 + n1*h(2);
+
+figure(5)
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+hold on
+% Plot the initial point
+quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_init, w2_init,'r*')
+% Plot the next point after the first epoch
+quiver(w1_init, w2_init, w1_new - w1_init, w2_new - w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_new,w2_new,'r*')
+% Plot the next point after the second epoch
+quiver(w1_new, w2_new, w1_new_new - w1_new, w2_new_new - w2_new, 'AutoScale','off', 'Color', 'b')
+plot(w1_new_new, w2_new_new,'r*')
+axis equal
+ax = gca;
+ax.XAxisLocation = 'origin';
+ax.YAxisLocation = 'origin';
+hold off
+xlabel('w1')
+ylabel('w2')
