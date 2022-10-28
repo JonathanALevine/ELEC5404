@@ -26,8 +26,8 @@ ylabel('w2')
 % First Epoch
 w1 = w1_init;
 w2 = w2_init;
-g = Grad_E(w1, w2);
-h = -1*g;
+g = -1*Grad_E(w1, w2);
+h = g;
 
 % Minimizing function to find the best step
 Phi = @(n) E(w1 + n*h(1), w2 + n*h(2));
@@ -44,9 +44,10 @@ figure(2)
 fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 plot(w1_init, w2_init,'r*')
-plot(w1_new, w2_new, 'r*')
+plot(w1_new, w2_new, 'b*')
 % Update Direction
 quiver(w1_init, w2_init, n*h(1), n*h(2), 'AutoScale','off', 'Color', 'b')
+quiver(w1_init, w2_init, 0.125*g(1), 0.125*g(2), 'AutoScale','off', 'Color', 'r')
 hold off
 axis equal
 ax = gca;
@@ -72,11 +73,11 @@ figure(3)
 fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 % quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
-plot(w1_init, w2_init,'r*')
+% plot(w1_init, w2_init,'r*')
 plot(w1_new, w2_new, 'r*')
-plot(w1_new_new, w2_new_new, 'r*')
-quiver(w1_new, w2_new, n*h_new(1), n*h_new(2), 'Autoscale', 'off')
-quiver(w1_new, w2_new, g_new(1), g_new(2), 'Autoscale', 'off')
+plot(w1_new_new, w2_new_new, 'b*')
+quiver(w1_new, w2_new, n*h_new(1), n*h_new(2), 'Autoscale', 'off', 'Color', 'b')
+quiver(w1_new, w2_new, g_new(1), g_new(2), 'Autoscale', 'off', 'Color', 'r')
 hold off
 axis equal
 ax = gca;
