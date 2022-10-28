@@ -8,10 +8,10 @@ Grad_E = @(w1, w2) [2*w1 - 2; 4*w2 - 8];
 
 % Initial Point
 w1_init = 0.5;
-w2_init = 1;
+w2_init = 1.0;
 
 figure(1)
-fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
 plot(w1_init, w2_init,'r*')
@@ -49,7 +49,7 @@ w1_new = w1 + n1*h(1);
 w2_new = w2 + n1*h(2);
 
 figure(3)
-fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 % Plot the initial point
 quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
@@ -84,14 +84,14 @@ figure(4)
 plot(n, Phis)
 
 % Find the best step size (best learning rate)
-n1 = GoldenSearch(n1, n2, Phi);
+n = GoldenSearch(n1, n2, Phi);
 
 % update new weights
-w1_new_new = w1 + n1*h(1);
-w2_new_new = w2 + n1*h(2);
+w1_new_new = w1 + n*h(1);
+w2_new_new = w2 + n*h(2);
 
 figure(5)
-fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
+fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 % Plot the initial point
 quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
