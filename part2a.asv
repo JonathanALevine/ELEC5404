@@ -58,9 +58,9 @@ plot(w1_init, w2_init,'r*')
 % Show the update direction
 quiver(w1_init, w2_init, n1*h(1), n1*h(2), 'AutoScale','off', 'Color', 'b')
 % Show the gradient direction
-quiver(w1_init, w2_init, 0.25*g(1), 0.25*g(2), 'AutoScale','off', 'Color', 'r')
+quiver(w1_init, w2_init, 0.5*g(1), g(2), 'AutoScale','on', 'Color', 'r')
 % Plot the next point after the first epoch
-plot(w1_new, w2_new,'b*')
+plot(w1_new, w2_new,'r*')
 axis equal
 ax = gca;
 ax.XAxisLocation = 'origin';
@@ -73,8 +73,7 @@ ylabel('w2')
 % Phi Function (Function to minimize to find the step n)
 w1 = w1_new;
 w2 = w2_new;
-g = Grad_E(w1, w2);
-h = -1*g;
+h = -1*Grad_E(w1, w2);
 Phi = @(n) E(w1 + n*h(1), w2 + n*h(2));
 
 % Guess at a small step and a large step
@@ -99,15 +98,14 @@ figure(5)
 fcontour(E, [-5 5], 'MeshDensity', 250,'LevelList', [0.001 0.01 0.03125 0.0625 0.125 0.25 0.5 1 1.5 2 2.25 3 3.5 4 4.5 5])
 hold on
 % Plot the initial point
-% quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
-% plot(w1_init, w2_init,'r*')
+quiver(0, 0, w1_init,w2_init, 'AutoScale','off', 'Color', 'b')
+plot(w1_init, w2_init,'r*')
 % Plot the next point after the first epoch
-% quiver(w1_init, w2_init, w1_new - w1_init, w2_new - w2_init, 'AutoScale','off', 'Color', 'b')
+quiver(w1_init, w2_init, w1_new - w1_init, w2_new - w2_init, 'AutoScale','off', 'Color', 'b')
 plot(w1_new,w2_new,'r*')
 % Plot the next point after the second epoch
-quiver(w1_new, w2_new, n*h(1), n*h(2), 'AutoScale','off', 'Color', 'b')
-quiver(w1_new, w2_new, g(1), g(2), 'AutoScale','off', 'Color', 'r')
-plot(w1_new_new, w2_new_new,'b*')
+quiver(w1_new, w2_new, w1_new_new - w1_new, w2_new_new - w2_new, 'AutoScale','off', 'Color', 'b')
+plot(w1_new_new, w2_new_new,'r*')
 axis equal
 ax = gca;
 ax.XAxisLocation = 'origin';
