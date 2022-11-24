@@ -18,6 +18,7 @@ plot(w1_init, w2_init,'r*')
 hold off
 axis equal
 ax = gca;
+
 ax.XAxisLocation = 'origin';
 ax.YAxisLocation = 'origin';
 xlabel('w1')
